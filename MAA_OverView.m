@@ -17,6 +17,12 @@ y = MAA_HammWindows(1024,'p');
 
 y = MAA_SNR(x,v,1/1);
 
+%% Signal to noise ratio of a signal (in decibells)
+% y = (signal,noise);
+
+z = MAA_SNR(x,v,10/1);
+y = MAA_OutSNR(z,v);
+
 %% STFT - Short Time Fourier Transform
 % y = (x,windowSize,overlap)
 
@@ -39,6 +45,7 @@ regParam = 1e-10;
 % Call weiner function
 y = MAA_WeinerFilter(y,vw,forgetFactX,forgetFactV,windowLength,regParam);
 
+z = MAA_OutSNR(y,vw);
 soundsc(y,Fs);
 
 %% SNAC Pitch Detection - inefficent, do not recomend long sounds!

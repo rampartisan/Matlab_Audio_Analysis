@@ -22,6 +22,3 @@ end
 % y = 20*log10(abs(y));
 % figure;
 % imagesc(y,F,T);
-
-
-spectrogram
