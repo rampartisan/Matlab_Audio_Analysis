@@ -1,24 +1,30 @@
-function y = MAA_STFT(x,windowSize,overlap)
+function [STFT] = MAA_STFT(x,windowSize,overlap)
 
+xLen = length(x);
 % make window
 window = MAA_HammWindows(windowSize,'p');
-overlapSamps = floor(windowSize * overlap);
-
+hopSize = floor(windowSize * overlap);
 % empty out vector
-y = [];
-i = 1;
+nRow = ceil((1+windowSize)/2);
+nCol = 1+fix((xLen-windowSize)/hopSize);
+STFT = zeros(nRow,nCol);
+% index
+idx = 1;
+colIdx = 1;
 
 % Compute STFT
-while (i+windowSize <= length(x))
-windowedSig = x(i:i+(windowSize-1));
-z = fft(windowedSig .* window, windowSize);
-y = [y z(1:round(windowSize/2),1)];
-i = i + (windowSize - overlapSamps);
+while (idx+(windowSize-1) <= length(x))
+    
+% segment and window input according to index
+windowedSig = x(idx:idx+(windowSize-1)) .* window;
+% FFT
+Z = fft(windowedSig,windowSize);
+% store FFT of this frame in the STFT matrix
+STFT(:,colIdx) = Z(1:nRow);
+
+% index updates
+idx = idx + hopSize;
+colIdx = colIdx + 1;
 end
 
-% Plot
-% F = (0:round(windowSize/2)-1)'/windowSize*Fs;
-% T = (round(windowSize/2):(windowSize-overlapSamps):length(x)-1-round(windowSize/2))/Fs;
-% y = 20*log10(abs(y));
-% figure;
-% imagesc(y,F,T);
+end

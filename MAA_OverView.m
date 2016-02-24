@@ -24,10 +24,31 @@ z = MAA_SNR(x,v,10/1);
 y = MAA_OutSNR(z,v);
 
 %% STFT - Short Time Fourier Transform
-% y = (x,windowSize,overlap)
+% z = (x,windowSize,overlap)
 
-y = MAA_STFT(x,1024,0.5);
+y = MAA_SNR(x,v,1/1);
+Z = MAA_STFT(y,128,0.5);
 
+%% ISTFT - Inverse Short Time Fourier Transform
+% z = (x,windowSize,overlap)
+
+y = MAA_SNR(x,v,1/1);
+Z = MAA_STFT(y,1024,0.5);
+yr = MAA_ISTFT(Z,1024,0.5);
+
+%% Weiner Filter Frequency Domain
+
+% attack / decay coefficents + noisy signal
+coeffs = [0.995 0.96 0.97 0.985];
+y = MAA_SNR(x,v,1/1);
+% STFT on input sig
+Z = MAA_STFT(y,1024,0.5);
+% imagesc(20*log10(abs(Z')));
+
+ZF = MAA_FWeinerFilter(Z,coeffs);
+% Inverse STFT
+yr = MAA_ISTFT(ZF,1024,0.5);
+soundsc(yr,Fs)
 %% Weiner Filter (Time Domain) -  removes sampled noise (v) from input(x)
 % y= (sig,noiseSamp,forgetFactX,forgetFactV,windowLength,RegParameter)
 
