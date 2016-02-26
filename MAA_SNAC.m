@@ -1,7 +1,10 @@
-function z = MAE_SNAC(x,Fs,Ws)
+% Returns a vector of fundamental frequencies (length = length of input / window size)
+% for the input signal. 
+
+function z = MAA_SNAC(x,Fs,Ws)
 [x,Fs] = audioread('gtr.wav');
 
-% Specially Normalised Autocorrelation in the time domain. Its very slow!
+% Specially Normalised Autocorrelation in the time domain.
 
 % out vector of pitches
 z = zeros(length(x),1);
@@ -26,8 +29,11 @@ for i = 1:numWin
     % normalise AC coeffs
     R(isnan(R)) = 0;
     R = R/max(abs(R));
+    % find peaks
     pks = findpeaks(R,'minpeakdistance',200);
     m=mean(pks);
     [pks,locs] = findpeaks(R,'minpeakheight',m/2);
+    % Calculate distance between peaks (samples) and convert to hz, store
+    % in output vector
     z((Ws*(i-1))+1:Ws*i) = (Fs / mean(diff(locs))) / 2;
 end

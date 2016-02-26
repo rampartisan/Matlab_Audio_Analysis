@@ -1,3 +1,5 @@
+% Calculate ouput SNR of input y using input x as reference
+
 function y = MAA_OutSNR(x,y)
 
 signalPow = rssq(x(:)).^2;

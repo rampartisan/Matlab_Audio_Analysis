@@ -1,3 +1,6 @@
+% Short function to create Hamming windows, can be either Symetric or
+% Periodic
+
 function window = MAA_HammWindows(windowSize,type)
 
 switch type

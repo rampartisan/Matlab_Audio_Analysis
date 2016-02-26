@@ -1,3 +1,5 @@
+% Hanning windows - Three types - casual, generalised cosine and periodic
+
 function window = MAA_HannWindows(windowSize,type)
 
 switch type

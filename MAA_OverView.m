@@ -10,7 +10,7 @@ y = MAA_HannWindows(1024,'p');
 
 % Hamming window -
 % y = MAA_HammWindows(windowLength,type (Symetric-'s',Periodic-'p')
-y = MAA_HammWindows(1024,'p');
+y = MAA_HammWindows(1024,'s');
 
 %% Mix Signal and Noise to Ratio
 % y(input+Noise) = MAA_SNR(Signal,Noise,Ratio(eg 1/1))
@@ -52,17 +52,14 @@ y = MAA_ISTFT(Zf,1024,0.5);
 coeffs = [0.995 0.96 0.97 0.985];
 % noisy signal
 y = MAA_SNR(x,v,1/1);
-
 % STFT on input sig
 Z = MAA_STFT(y,1024,0.5);
-% imagesc(20*log10(abs(Z')));
-
 % Filter
 ZF = MAA_FWeinerFilter(Z,coeffs);
-
 % Inverse STFT
 yr = MAA_ISTFT(ZF,1024,0.5);
 soundsc(yr,Fs)
+
 %% Weiner Filter (Time Domain) -  removes sampled noise (v) from input(x)
 % y= MAA_WeinerFilter(sig,noiseSamp,forgetFactX,forgetFactV,windowLength,RegParameter)
 
@@ -79,9 +76,6 @@ windowLength = 40;
 regParam = 1e-10;
 % Call weiner function
 y = MAA_WeinerFilter(y,vw,forgetFactX,forgetFactV,windowLength,regParam);
-
-z = MAA_OutSNR(y,vw);
-soundsc(y,Fs);
 
 %% SNAC Pitch Detection - inefficent, do not recomend long sounds!
 % y(vector of pitches)= MAA_SNAC(input,sampleRate,window size)

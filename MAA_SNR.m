@@ -1,3 +1,5 @@
+% Mix two signals with desired ratio x/v (eg 1/1 is 0 db)
+
 function z = MAA_SNR(x,v,SNR)
 
 % Cut noise down to length

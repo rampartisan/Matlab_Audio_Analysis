@@ -1,17 +1,19 @@
+% Reduces the noise of a signal using weiner filtering. Requires a sample
+% of the noise (v)
+
+
 function z = MAA_WeinerFilter(y,v,forgetFactX,forgetFactV,windowLength, ...
     regParam)
 
 % create hanning window
 window = MAA_HannWindows(windowLength,'p');
-
-% Identity matrix
+% Identity matricies
 covY = eye(windowLength);
 covV = eye(windowLength);
-
-% Empty Out
+% Empty out vector
 z = zeros(length(y),1);
 
-% averaged noise cov from sample of noise
+% averaged noise covariance matrix from sample of noise
 for j = 1:length(v)-windowLength
 
     covV = (forgetFactV * covV) + (1-forgetFactV) * ...
@@ -19,7 +21,7 @@ for j = 1:length(v)-windowLength
 
 end
 
-% Observed cov and weiner filter
+% Input/observed signal covariance matrix and weiner filter
 for i = 1:length(y)-windowLength
     
     % obs cov
