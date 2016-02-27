@@ -23,6 +23,14 @@ y = MAA_SNR(x,v,1/1);
 z = MAA_SNR(x,v,10/1);
 y = MAA_OutSNR(z,v);
 
+%% FFT - Discrete Fourier Transform
+% z = MAA_FFT(input,windowSize)
+z = MAA_FFT(v,1024);
+
+%% IFFT - Inverse Discrete Fourier Transform
+% z = MAA_IFFT(input,windowSize)
+z = MAA_IFFT(z,1024);
+
 %% STFT - Short Time Fourier Transform
 % z = MAA_STFT(x,windowSize,overlap)
 
